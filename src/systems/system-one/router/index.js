@@ -4,7 +4,23 @@ import VueRouter from 'vue-router'
 import Layout from '../layout'
 
 Vue.use(VueRouter)
-const routes = [
+
+export const constantRoutes = [
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/home',
+    meta: { title: 'Home' },
+    children: [
+      {
+        path: 'home',
+        component: () => import('../views/process/menu1/index'), // Parent router-view
+        name: 'Home',
+        meta: { title: 'Home' }
+      }
+    ]
+  },
+
   {
     path: '/404',
     component: () => import('../views/404'),
@@ -65,14 +81,54 @@ const routes = [
     ]
   },
 
-  // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
+]
+
+export const asyncRoutes = [
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/menu1',
+    name: 'Permission',
+    meta: {
+      title: 'Permission',
+      roles: ['admin', 'editor']
+    },
+    children: [
+      {
+        path: 'menu1',
+        component: () => import('../views/permission/menu1'),
+        name: 'PagePermission',
+        meta: {
+          title: 'Menu1',
+          roles: ['admin']
+        }
+      },
+      {
+        path: 'menu2',
+        component: () => import('../views/permission/menu2'),
+        name: 'Menu2',
+        meta: {
+          title: 'Menu2'
+        }
+      },
+      {
+        path: 'menu3',
+        component: () => import('../views/permission/menu3'),
+        name: 'Menu3',
+        meta: {
+          title: 'Menu3',
+          roles: ['admin']
+        }
+      }
+    ]
+  }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: constantRoutes
 })
 
 export default router

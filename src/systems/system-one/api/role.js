@@ -1,7 +1,7 @@
-export const getRoutes = () => {
+export const getRoles = () => {
   return Promise.resolve({
     data: {
-      data: [{ path: '/login', component: 'login', hidden: true }]
+      roles: ['admin']
     }
   })
 }

@@ -2,6 +2,9 @@
   <div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
         :default-active="activeMenu"
         :unique-opened="false"
         :collapse-transition="false"
@@ -21,11 +24,8 @@ export default {
   components: { SidebarItem },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'routes'
     ]),
-    routes () {
-      return this.$router.options.routes
-    },
     activeMenu () {
       const route = this.$route
       const { meta, path } = route
