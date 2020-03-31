@@ -6,6 +6,13 @@ import Layout from '../layout'
 Vue.use(VueRouter)
 
 export const constantRoutes = [
+
+  {
+    path: '/login',
+    component: () => import('../views/login'),
+    hidden: true
+  },
+
   {
     path: '/',
     component: Layout,

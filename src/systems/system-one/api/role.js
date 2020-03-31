@@ -5,3 +5,12 @@ export const getRoles = () => {
     }
   })
 }
+
+export const login = (data) => {
+  return Promise.resolve({
+    data: {
+      isSuccess: true,
+      token: '123456'
+    }
+  })
+}

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getRoles } from '../api/role'
+import { getRoles, login } from '../api/role'
 import { asyncRoutes, constantRoutes } from '../router'
 Vue.use(Vuex)
 
@@ -31,12 +31,14 @@ const filterAsyncRoutes = (routes, roles) => {
 export default new Vuex.Store({
   state: {
     roles: [],
-    routes: []
+    routes: [],
+    token: ''
   },
 
   getters: {
     roles: state => state.roles,
-    routes: state => state.routes
+    routes: state => state.routes,
+    token: state => state.token
   },
 
   mutations: {
@@ -47,6 +49,10 @@ export default new Vuex.Store({
     SET_ROUTES: (state, routes) => {
       state.routes = constantRoutes.concat(routes)
       console.log(constantRoutes.concat(routes))
+    },
+
+    SET_TOKEN: (state, token) => {
+      state.token = token
     }
   },
   actions: {
@@ -76,6 +82,20 @@ export default new Vuex.Store({
         console.log(accessedRoutes)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
+      })
+    },
+
+    login ({ commit }, userInfo) {
+      const { username, password } = userInfo
+      return new Promise((resolve, reject) => {
+        login({ username, password }).then(response => {
+          const { data } = response
+          if (data.isSuccess) {
+            commit('SET_TOKEN', data.token)
+          }
+        }).catch(error => {
+          reject(error)
+        })
       })
     }
   },
