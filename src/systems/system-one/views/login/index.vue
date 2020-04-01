@@ -33,7 +33,9 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          return this.$router.push('/home')
+          this.$store.dispatch('login', this.loginForm).then(() => {
+            return this.$router.push('/')
+          })
         } else {
           console.log('error submit!!')
           return false

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { getRoles, login } from '../api/role'
+import { setToken } from '../utils/auth'
 import { asyncRoutes, constantRoutes } from '../router'
 Vue.use(Vuex)
 
@@ -92,6 +93,8 @@ export default new Vuex.Store({
           const { data } = response
           if (data.isSuccess) {
             commit('SET_TOKEN', data.token)
+            setToken(data.token)
+            resolve()
           }
         }).catch(error => {
           reject(error)
